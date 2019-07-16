@@ -1,0 +1,93 @@
+<style>
+	.layui-form-item .layui-form-label {
+	    width: 200px;
+	    text-align: right;
+	}
+</style>
+<div class="layui-card">
+	<div class="layui-card-body">
+		<div class="layui-tab layui-tab-brief">
+			<ul class="layui-tab-title">
+				<li {eq name="category" value="site"} class="layui-this"{/eq}><a href="__APP__/Config/index/category/site.html">基础</a></li>
+				<li {eq name="category" value="System"} class="layui-this"{/eq}><a href="__APP__/Config/index/category/System.html">系统</a></li>
+				<li {eq name="category" value="Weixin"} class="layui-this"{/eq}><a href="__APP__/Config/index/category/Weixin.html">微信</a></li>
+				<li {eq name="category" value="Flow"} class="layui-this"{/eq}><a href="__APP__/Config/index/category/flow.html">业务流程</a></li>
+			</ul>
+			<div class="layui-tab-content page-tab-content">
+				<div class="layui-tab-item layui-show">
+					<style type="text/css">
+						.layui-form-item .layui-input-inline{max-width:80%;width:auto;min-width:260px;}
+						.layui-form-mid{padding:0!important;}
+						.layui-form-mid code{color:#5FB878;}
+					</style>
+					<form action="__APP__/config/update.html" class="page-list-form layui-form layui-form-pane" method="post">
+						
+						{Data:loop name="Config" category="$category" var="vo" limit="all"}
+						<div class="layui-form-item">
+							<label class="layui-form-label">{$vo.title}：</label>
+							<div class="layui-input-inline">
+								{switch name="vo.type"}
+								{case value="checkbox" break="1"}
+								<input type="checkbox" name="{$vo.name}" value="1" lay-skin="switch" lay-text="{$vo.extra}" {eq name="vo.value" value="1"}checked{/eq} >
+								{/case}
+								{case value="radio" break="1"}
+									{Sd:radio name="｛$vo.name｝" checked="$vo['value']" options="$vo['extra']"}
+								{/case}
+								{case value="select" break="1"}
+									<!--{Html:Input type="text" class="layui-input" name="$vo['name']" value="$vo['value']" autocomplete="off" placeholder="请填写$vo['title']" /}-->
+								{/case}
+								{case value="switch" break="1"}
+									<input type="checkbox" value="0" title="{$vo.extra}" name="{$vo.name}" id="{$vo.name}" layui-filter="{$vo.name}" {eq name="vo.value" value="1"}checked{/eq} >
+								{/case}
+								{case value="img" break="1"}
+									{html:uploadbtn id="{$vo.name}" name="{$vo.name}" value="{$vo.value}"}
+								{/case>
+								{case value="textarea" break="1"}
+									<textarea rows="6" class="layui-textarea" name="{$vo.name}" autocomplete="off" placeholder="请填写{$vo.title}">{$vo.value}</textarea>
+								{/case>
+								{default /}
+									<input type="text" class="layui-input" name="{$vo.name}" value="{$vo.value}" autocomplete="off" placeholder="请填写{$vo.title}" />
+								{/switch}
+							</div>
+							<div class="layui-form-mid layui-word-aux">{$vo.remark}{$vo.name|strtoupper}</div>
+						</div>
+						{/Data:loop}
+
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button type="submit" class="layui-btn" lay-submit="" lay-filter="formSubmit">提交</button>
+							</div>
+						</div>
+					</form>
+					<script>
+						layui.use(['jquery', 'laydate', 'upload'], function() {
+							var $ = layui.jquery, laydate = layui.laydate, layer = layui.layer, upload = layui.upload;
+							upload.render({
+								elem: '.layui-upload',
+								url: '__APP__/annex/upload/thumb/no/water/no.html'
+								,method: 'post'
+								,before: function(input) {
+									layer.msg('文件上传中...', {time:3000000});
+								},done: function(res, index, upload) {
+									var obj = this.item;
+									if (res.code == 0) {
+										layer.msg(res.msg);
+										return false;
+									}
+									layer.closeAll();
+									var input = $(obj).parents('.upload').find('.upload-input');
+									if ($(obj).attr('lay-type') == 'image') {
+										input.siblings('img').attr('src', res.data.file).show();
+									}
+									input.val(res.data.file);
+								}
+							});
+							// 日期渲染
+							laydate.render({elem: '.layui-date'});
+						});
+					</script>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

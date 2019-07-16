@@ -1,0 +1,56 @@
+<div class="layui-card">
+	<div class="layui-card-header">
+		<div class="layui-btn-group">
+			<a href="__APP__/Role/add.html')" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-add-1"></i>添加</a>
+			<a href="__APP__/Role/del.html" class="layui-btn layui-btn-primary ajax confirm"><i class="layui-icon layui-icon-close"></i>删除</a>
+			<a href="__APP__/Role/cache.html" class="layui-btn layui-btn-primary ajax"><i class="layui-icon layui-icon-refresh"></i>刷新菜单</a>
+		</div>
+		<div class="page-filter fr">
+			<form class="layui-form layui-form-pane" action="__APP__/Role/index.html" method="get">
+			<div class="layui-form-item">
+				
+				<div class="layui-input-inline">
+					<input type="text" name="keywords" lay-verify="required" placeholder="请输入关键词搜索" autocomplete="off" class="layui-input" value="{:input('keywords')}">
+					<button class="layui-icon">&#xe615;</button>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<div class="layui-card-body">
+		<div class="layui-form">
+			{Data:list name="Role" keywords="request"}
+			<table class="layui-table mt10" lay-even="" lay-skin="row">
+				<colgroup><col width="50"></colgroup>
+				<thead>
+					<tr>
+						<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+						<th>角色名称</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="var.list" id="vo"}
+					<tr>
+						<td><input type="checkbox" name="ids[0]" value="{$vo.id}" class="layui-checkbox checkbox-ids" lay-skin="primary"></td>
+						<td>{$vo.title}</td>
+						<td>
+							{Html:Switch name="status" value="$vo['status']" lay-filter="switchStatus" options="正常|关闭" href="__APP__/Role/attr/field/status/ids/｛$vo.id｝.html"/}
+						<td>
+							<div class="layui-btn-group">
+								<div class="layui-btn-group">
+									<a href="__APP__/Role/edit/id/{$vo.id}.html" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon layui-icon-edit"></i></a>
+									<a href="__APP__/Role/del/ids/{$vo.id}.html" class="layui-btn layui-btn-primary layui-btn-sm ajax"><i class="layui-icon layui-icon-close"></i></a>
+								</div>
+							</div>
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+			{$var.page|raw}
+			{/Data:list}
+		</div>
+	</div>
+</div>

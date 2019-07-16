@@ -1,0 +1,120 @@
+{Data:article name="Caiji" id="request" var="vo"}
+<div class="layui-card">
+	<div class="layui-card-header">
+		<a href="{:Request()->url()}"><i class="layui-icon layui-icon-left"></i></a>
+		<span class="layui-breadcrumb">
+			<a><cite>后台</cite></a>
+			<a href="__APP__/{$Request.controller}/index.html"><cite>数据采集</cite></a>
+			<a><cite>编辑</cite></a>
+		</span>
+	</div>
+	<div class="layui-card-body">
+		<form action="{:Request()->url()}" class="child-form page-list-form layui-form layui-form-pane" method="post">			
+			<div class="layui-tab layui-tab-brief">
+				<ul class="layui-tab-title">
+					<li class="layui-this">列表设置</li>
+					<li>数据项</li>
+					<li>内容整理</li>
+					<li>发布设置</li>
+				</ul>
+				<div class="layui-tab-content page-tab-content">
+					<div class="layui-tab-item layui-show">
+						<div class="layui-form-item">
+							<label class="layui-form-label">标题</label>
+							<div class="layui-input-inline input-6x">
+								<input type="text" class="layui-input" name="title" value="{$vo.title}" autocomplete="off" placeholder="请填写标题"/>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">列表网址</label>
+							<div class="layui-input-block input-6x">
+								<textarea class="layui-textarea fly-editor" name="list" id="list_url" placeholder="请填写列表网址" >{$vo.list}</textarea>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">列表区域规则</label>
+							<div class="layui-input-block input-6x">
+								<textarea class="layui-textarea fly-editor" name="area" placeholder="请填写列表区域规则" >{$vo.area}</textarea>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">列表分析规则</label>
+							<div class="layui-input-block input-6x">
+								<textarea class="layui-textarea" name="listrule" placeholder="请填写列表分析规则" >{$vo.listrule}</textarea>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">文章网址合成</label>
+							<div class="layui-input-block input-6x">
+								<textarea class="layui-textarea" name="urltpl" placeholder="请填写列表区域规则" >{$vo.urltpl}</textarea>
+							</div>
+						</div>
+					</div>
+					<!--数据项-->
+					<div class="layui-tab-item">
+						<table class="layui-table">
+							<colgroup>
+								<col width="80">
+								<col width="150">
+								<col width="150">
+								<col width="150">
+								<col width="150">
+								<col>
+							</colgroup>
+							<thead>
+								<tr>
+									<th>规则名</th>
+									<th>选择器</th>
+									<th>要采集的属性</th>
+									<th>标签过滤列表</th>
+									<th>回调函数</th>
+									<th>操作</th>
+								</tr> 
+							</thead>
+							<tbody>
+								<tr>
+									<td>标题</td>
+									<td>人生就像是一场修行</td>
+									<td>no</td>
+								</tr>
+							</tbody>
+							<tfoot>
+									<tr>
+										<td></td>
+										<td><button class="layui-btn" id="addrule">add</button></td>
+										<td></td>
+									</tr>
+							</tfoot>
+						</table>
+					</div>
+					<!--内容整理-->
+					<div class="layui-tab-item">
+
+					</div>
+					<!--发布设置-->
+					<div class="layui-tab-item">
+
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-inline input-6x">
+					<button type="submit" class="layui-btn" lay-submit="" lay-filter="formSubmit">提交</button>
+				</div>
+			</div>
+			<input type="hidden" name="id" value="{$vo.id}" />
+		</form>
+	</div>
+</div>
+<script>
+	layui.use(['jquery','caijieditor'],function(){
+		var $ = layui.jquery;
+		$('textarea').on('keyup',function(){
+			$(this).val($(this).val().replace(/<%/ig,'{').replace(/%>/ig,'}'));
+			//console.info($(this).val());
+		})
+		$('#addrule').on('click',function(){
+			
+		})
+	});
+</script>

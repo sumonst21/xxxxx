@@ -1,0 +1,70 @@
+{Data:Article id="request" var="vo"}
+<div class="layui-card">
+	<div class="layui-card-header">
+		{if condition="Request()->Action() neq 'index'"}
+			<a href="{:Request()->url()}"><i class="layui-icon layui-icon-left"></i></a>
+			<span class="layui-breadcrumb">
+				<a><cite>后台</cite></a>
+				<a href="__APP__/{$Request.controller}/index.html"><cite>{$Request.controller|getControllerTitle}</cite></a>
+				<a><cite>编辑</cite></a>
+			</span>
+		{/if}
+	</div>
+	<div class="layui-card-body">
+		<form action="{:Request()->url()}" class="child-form page-list-form layui-form layui-form-pane" method="post">
+			<div class="layui-form-item">
+				<label class="layui-form-label">标题</label>
+				<div class="layui-input-inline input-6x">
+					<input type="text" class="layui-input" name="title" value="{$vo.title}" autocomplete="off" placeholder="请填写标题" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">分类</label>
+				<div class="layui-input-inline input-6x">
+					<select name="cid">
+						<option value="">请选择分类</option>
+						{Data:loop name="Category" var="gvo" status="1" module="{$Request.controller}"}
+						<option value="{$gvo.id}" {eq name="gvo.id" value="$vo['cid']"}selected{/eq}>{$gvo.title}</option>
+						{/Data:loop}
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">文件</label>
+				<div class="layui-input-inline input-6x">
+					<div class="fm"><input type="text" class="layui-input" name="url" value="{$vo.url}" autocomplete="off" placeholder="请选择图片" readonly="readonly" /><button class="layui-btn" type="button">选择</button></div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">介绍</label>
+				<div class="layui-input-inline input-6x">
+					{Html:textarea name="content" id="editor" value="[$vo.content]" /}
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">标签</label>
+				<div class="layui-input-inline input-6x">
+					<input type="text" class="layui-input" name="tags" value="{$vo.tags}" autocomplete="off" placeholder="请填写标签" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">状态</label>
+				<div class="layui-input-inline input-6x">
+					{Html:Switch name="status" value="$vo['status']" options="启用|禁用" /}
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">排序</label>
+				<div class="layui-input-inline input-6x">
+					<input type="text" class="layui-input" name="sort" value="{$vo.sort}" autocomplete="off" placeholder="请填写排序数字" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-inline input-6x">
+					<button type="submit" class="layui-btn" lay-submit="" lay-filter="formSubmit">提交</button>
+				</div>
+			</div>
+			<input type="hidden" name="id" value="{$vo.id}" />
+		</form>
+	</div>
+</div>

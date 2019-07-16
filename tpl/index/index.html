@@ -1,0 +1,16 @@
+<div class="layui-row layui-col-space10 mt20">
+    {Data:loop name="Category" module="Article" limit="all" var="cvar" order="id desc"}
+        <div class="layui-col-md4 layui-col-xs12 mb20">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-list"></i>{$cvar.title}<a href="/Category/{$cvar.id}.html" class="more" pjax><i class="layui-icon layui-icon-next right"></i></a></div>
+                <div class="layui-card-body">
+                    <ul>
+                        {Data:loop name="Article" limit="10" cid="$cvar['id']" var="var" order="id desc"}
+                        <li class="title"><a href="/{$var.id}.html" pjax>{$var.title}</a></li>
+                        {/Data:loop}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {/Data:loop}
+</div>

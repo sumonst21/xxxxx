@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{:Config('site.title')}</title>
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/new.css">
+    <script src="__STATIC__/layui/layui.js"></script>
+</head>
+<body>
+    <div class="layui-header header header-doc" summer>
+        <div class="layui-container layui-hide-md">
+            <div class="header">
+                <button class="navbar-toggle hamburger hamburger-close collapsed" id="ToggleSideMenu" type="button" aria-expanded="false">
+                    <span class="sr-only"></span>
+                    <span class="hamburger-bar"></span>
+                </button>
+                <h1>{:Config('site.name')}</h1>
+            </div>
+        </div>
+        <div class="layui-container layui-hide-xs">
+            <a class="logo" href="/">
+                <img src="/static/logo.svg" alt="layui">
+            </a>
+            <form class="layui-form component" lay-filter="LAY-site-header-component" action="/Search.html">
+                <input type="text" name="keywords" class="layui-input">
+            </form>
+            <ul class="layui-nav">
+                <li class="layui-nav-item {eq name=":Request()->controller()" value="Article"}layui-this{/eq}"><a href="/Article.html">小说</a></li>
+                <li class="layui-nav-item {eq name=":Request()->controller()" value="Video"}layui-this{/eq}"><a href="/Video.html">视频</a></li>
+                <li class="layui-nav-item {eq name=":Request()->controller()" value="Image"}layui-this{/eq}"><a href="/Image.html">图片</a></li>
+                <li class="layui-nav-item">
+                    <a href="/User.html"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">投稿</a></dd>
+                        <dd><a href="javascript:;">修改信息</a></dd>
+                        <dd><a href="javascript:;">安全管理</a></dd>
+                        <dd><a href="javascript:;">退出</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <section class="body">
+        <ul class="layui-nav layui-nav-tree" id="SideMenu" lay-filter="menu" style="display:none;">
+            <li class="layui-nav-item {eq name=":Request()->controller()" value="Article"}layui-this{/eq}"><a href="/Article.html">小说</a></li>
+            <li class="layui-nav-item {eq name=":Request()->controller()" value="Video"}layui-this{/eq}"><a href="/Video.html">视频</a></li>
+            <li class="layui-nav-item {eq name=":Request()->controller()" value="Image"}layui-this{/eq}"><a href="/Image.html">图片</a></li>
+        </ul>
+        <div class="layui-container">
+            {__CONTENT__}
+        </div>
+    </section>
+    <footer class="page footer">
+        <div class="layui-container">
+            <span>© 2019 <a href="/">layui.com</a> </span>
+            <span>
+                <a href="" target="_blank">案例</a>
+                <a href="" target="_blank">支持</a>
+                <a href="" target="_blank">公众号</a>
+            </span>
+        </div>
+    </footer>
+    <!-- 你的HTML代码 -->
+
+    <script>
+      //一般直接写在一个js文件中
+        layui.use(['layer', 'form', 'util', 'element','jquery'], function () {
+            var layer = layui.layer,
+                form = layui.form,
+                $ = layui.jquery,
+                util = layui.util;
+            $('#ToggleSideMenu').on('click',function(){
+                $(this).toggleClass('collapsed');
+                $('#SideMenu').toggle();
+            });
+            //执行
+            util.fixbar();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+{eq name="Request.action" value="edit"}
+{Data:article name="Rule" id="request" var="vo"}
+{/eq}
+
+<div class="layui-card">
+	<div class="layui-card-header">
+		{if condition="Request()->Action() neq 'index'"}
+			<a href="{:Request()->url()}"><i class="layui-icon layui-icon-left"></i></a>
+			<span class="layui-breadcrumb">
+				<a><cite>后台</cite></a>
+				<a href="__APP__/{$Request.controller}/index.html"><cite>{$Request.controller|getControllerTitle}</cite></a>
+				<a><cite>编辑</cite></a>
+			</span>
+		{/if}
+	</div>
+	<div class="layui-card-body">
+		<form action="{:Request()->url()}" class="child-form page-list-form layui-form layui-form-pane" method="post">
+			<div class="layui-form-item">
+				<label class="layui-form-label">标识</label>
+				<div class="layui-input-inline input-6x">
+						<input type="text" class="layui-input" name="name" value="{$vo.name}" autocomplete="off" placeholder="请填写标识" />
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">标题</label>
+				<div class="layui-input-inline input-6x">
+					<input type="text" class="layui-input" name="title" value="{$vo.title}" autocomplete="off" placeholder="请填写标题" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">规则</label>
+				<div class="layui-input-inline input-6x">
+					<textarea rows="6" class="layui-textarea" name="condition" autocomplete="off" placeholder="请填写规则">{$vo.condition}</textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">分组</label>
+				<div class="layui-input-inline input-6x">
+					<select name="group_id">
+						<option value="">请选择分组</option>
+						{Data:loop name="App" var="gvo" status="1"}
+						<option value="{$gvo.id}" {eq name="vo.group_id" value="$gvo['id']" } selected="selected" {/eq}>{$gvo.title}</option>
+						{/Data:loop}
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">上级</label>
+				<div class="layui-input-inline input-6x">
+					<select name="pid">
+						<option value="">请选择</option>
+						{data:loop name="rule" var="gvo" status="1" pid="0"}
+						<option value="{$gvo.id}" {eq name="vo.pid" value="$gvo['id']" } selected="selected" {/eq}>{$gvo.title}</option>
+						{/Data:loop}
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">菜单</label>
+				<div class="layui-input-inline input-6x">
+					<input type="checkbox" value="1" lay-skin="switch" lay-text="是|否" <?php if($vo['is_menu']!==0){echo " checked";}?> name="is_menu" id="is_menu" layui-filter="is_menu"  >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">显示</label>
+				<div class="layui-input-inline input-6x">
+					<input type="checkbox" value="1" lay-skin="switch" lay-text="显示|隐藏" <?php if($vo['is_show']!==0){echo " checked";}?> name="is_show" id="is_show" layui-filter="is_show"  >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">状态</label>
+				<div class="layui-input-inline input-6x">
+					<input type="checkbox" value="1" lay-skin="switch" lay-text="启用|禁用" <?php if($vo['status']!==0){echo " checked";}?> name="status" id="status" layui-filter="status"  >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">排序</label>
+				<div class="layui-input-inline input-6x">
+					<input type="text" class="layui-input" name="sort" value="{$vo.sort}" autocomplete="off" placeholder="请填写排序数字" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-inline input-6x">
+					<button type="submit" class="layui-btn" lay-submit="" lay-filter="formSubmit">提交</button>
+				</div>
+			</div>
+			<input type="hidden" name="id" value="{$vo.id}" />
+			<input type="hidden" name="level" value="{$vo.level|default=$Think.get.level|default=0}" />
+		</form>
+	</div>
+</div>

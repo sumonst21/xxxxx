@@ -1,0 +1,202 @@
+<style type="text/css">
+    .attachs:after{content:' ';clear: both;}
+    .attach{width:210px;height:335px;display:inline-block;margin:0 10px 10px 0;}
+    .attach .layui-progress{display:none;}
+    .attach img{max-width:210px;max-height:297px;}
+    .attach .img{width:210px;height:297px;background:#f1f1f1;position: relative;overflow: hidden;}
+    .attach .img p {position: absolute;top: 50%;left: 50%;margin: 0;padding: 0;}
+    .attach .img img {position: absolute;top: -50%;left: -50%;display: block;}
+    .attach .img img.hidden {visibility: hidden;position: static;}
+    .attach .img .webuploader-pick{width:100%;height:100%;background:transparent;padding:0;}
+    .attach .img .webuploader-pick:after{content:'\e608';font-family: layui-icon!important;line-height: 297px;font-size: 48px;color:#333;}
+    .active{background:#ccc;}
+    /* 两列右侧自适应布局 */
+.g-bd1{margin:0 0 10px;}
+.g-sd1{position:relative;float:left;width:200px;margin-right:-200px;}
+.g-mn1{float:right;width:100%;}
+.g-mn1c{margin-left:210px;}
+</style>
+<?php
+    P(json_encode($_POST['attach']));
+?>
+<div class="layui-card">
+	<div class="layui-card-header">
+		{if condition="Request()->Action() neq 'index'"}
+			<a href="{:Request()->url()}"><i class="layui-icon layui-icon-left"></i></a>
+			<span class="layui-breadcrumb">
+				<a><cite>后台</cite></a>
+				<a href="__APP__/{$Request.controller}/index.html"><cite>{$Request.controller|getControllerTitle}</cite></a>
+				<a><cite>编辑</cite></a>
+			</span>
+		{/if}
+	</div>
+	<div class="layui-card-body">
+		<form method="POST">
+			<div class="g-bd1 f-cb">
+				<div class="g-sd1">
+					<ul id="tree" class="layui-box layui-tree">
+						<li>
+							<a href="javascript:;" class="active"><i class="layui-icon layui-icon-home"></i><cite>全部资料</cite></a>
+							<ul class="layui-show">
+								<li>
+									<a href="javascript:;" class="mulu"><i class="layui-icon layui-icon-template-1"></i><cite>查询征信资料</cite></a>
+									<ul class="layui-show">
+										<li><a href="javascript:;"><i class="layui-icon layui-icon-file"></i><cite>营业执照</cite></a></li>
+										<li><a href="javascript:;"><i class="layui-icon layui-icon-file"></i><cite>银行征信</cite></a></li>
+										<li><a href="javascript:;"><i class="layui-icon layui-icon-file"></i><cite>鹏元征信</cite></a></li>
+										<li><a href="javascript:;"><i class="layui-icon layui-icon-file"></i><cite>手持照片</cite></a></li>
+										<li><a href="javascript:;"><i class="layui-icon layui-icon-file"></i><cite>身份证复印件</cite></a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="javascript:;" class="mulu"><i class="layui-icon layui-icon-template-1"></i><cite>放款资料</cite></a>
+									<ul class="layui-show">
+										<li><a href="javascript:;"><i class="layui-icon layui-icon-file"></i><cite>登记证书</cite></a></li>
+									</ul>
+								</li>
+								<li><a href="javascript:;"><i class="layui-icon layui-icon-file"></i><cite>其他资料</cite></a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="g-mn1">
+					<div class="g-mn1c" id="dragContainer">
+						<div class="attach">
+							<div class="img" id="AddAttach"></div>
+							<div class="layui-progress" lay-filter="pi"><div class="layui-progress-bar" lay-percent="10%"></div></div>
+							<input type="hidden" name="attachs[i][value]" value="">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="attachs" style="min-height:500px;">
+			</div>
+			<div>
+				<button type="button" class="layui-btn layui-btn layui-btn-normal" id="AddAttach">添加附件</button>
+				<button type="submit" class="layui-btn layui-btn layui-btn-normal">提交</button>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+    var LoanId= 146;
+    var attachs = {
+        '营业执照' : ['营业执照.jpg'],
+        '银行征信' : ['银行征信.jpg'],
+        '鹏元征信' : ['鹏元征信.jpg'],
+        '手持照片' : ['手持照片.jpg'],
+        '身份证复印件' : ['身份证复印件.jpg'],
+        '登记证书' : [],
+        '其他资料' : ['1667181120.jpg','1667181121.jpg'],
+    };
+
+    function initupload(){        
+        var uploader = WebUploader.create({
+            dnd :'#dragContainer',
+            disableGlobalDnd : true,
+            swf: 'https://cdn.staticfile.org/webuploader/0.1.5/Uploader.swf',
+            server: ADMIN_PATH +'/Attach/upload.html',
+            paste:document.body,
+            accept:{
+                title:'图片文件',
+                extensions:'gif,jpg,jpeg,bmp,png',
+                mimeTypes:'image/*',
+            },
+            formData :{_ajax:1,savepath:'/Uploads/danbao/'+LoanId+'/'},
+            auto:true,
+            compress:{
+                width: 1500,
+                //height: 1600,
+                // 图片质量，只有type为`image/jpeg`的时候才有效。
+                quality: 90,
+                // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
+                allowMagnify: false,
+                // 是否允许裁剪。
+                crop: false,
+                // 是否保留头部meta信息。
+                preserveHeaders: true,
+                // 如果发现压缩后文件大小比原来还大，则使用原来图片
+                // 此属性可能会影响图片自动纠正功能
+                noCompressIfLarger: true,
+                // 单位字节，如果图片大小小于此值，不会采用压缩。
+                compressSize: 1024
+            },
+            // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+            resize: false
+        });
+        uploader.on( 'fileQueued', function( file ) {
+            var li = $(['<div class="attach" id="'+file.id+'">'+
+                    '<div class="img"><p><img src="" /><img src="" class="hidden"/></p></div>'+
+                    '<div class="layui-progress" lay-filter="pi"><div class="layui-progress-bar" lay-percent="10%"></div></div>'+
+                    '<input type="hidden" name="attachs[i][value]" value="">'+
+                '</div>'].join(''));
+            $('#AddAttach').parent().before(li);
+            if(file.type.substring(0,5)=='image'){
+                uploader.makeThumb( file, function( error, src ) {
+                    if ( error ) {
+                        console.info('不能预览');
+                        return;
+                    }
+                    li.find('img').attr( 'src', src );
+                }, 210, 297);                           
+            }
+        });
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on( 'uploadProgress', function( file, percentage ) {
+            var p = $('#'+file.id).find('.layui-progress');
+            p.show();
+            layui.element.progress(p.attr('lay-filter'), percentage * 100 + '%');
+        });
+        uploader.on('uploadSuccess', function(file,data) {
+            var data=$.parseJSON(data['_raw']);
+            //$(v).parent().find(':hidden').val(data.id);
+            $('#'+file.id).find(':hidden').val(data.savepath +data.savename);
+            $('#'+file.id).find('img').attr('src',data.savepath +data.savename);
+            //$(v).find(' .title').text(data.name);
+            $('#'+file.id).find('.layui-progress').hide();
+            attachs[$('.active').text()].push(data.savename);
+        });
+    }
+    function showFile(key){
+        var l = attachs[key];
+        for (var i = 0; i < l.length; i++) {
+            $('#AddAttach').parent().before(['<div class="attach show">'+
+                    '<div class="img"><p><img src="/Uploads/danbao/'+LoanId+'/'+l[i]+'" /><img src="/Uploads/danbao/'+LoanId+'/'+l[i]+'" class="hidden"/></p></div>'+
+                    '<div class="layui-progress" lay-filter="pi"><div class="layui-progress-bar" lay-percent="10%"></div></div>'+
+                    '<input type="hidden" name="attachs[i][value]" value="">'+
+                '</div>'].join(''));
+        }
+    }
+    layui.use(['jquery','tree'],function(){
+        var $ = layui.jquery;
+        window.$=window.jQuery=$;
+        $('#tree a').click(function(){
+            var text = $(this).text();
+            var list = [];
+            if(text=='全部资料'){
+                $('.attach.show').remove();
+                for (var i in attachs) {
+                    showFile(i);
+                }
+                $('.active').removeClass('active');
+                $(this).addClass('active');
+            }else{
+                if(!$(this).hasClass('mulu')){
+                    $('.attach.show').remove();
+                    showFile(text);
+                }
+                $('.active').removeClass('active');
+                $(this).addClass('active');
+            }
+        });
+        $('.active').trigger('click');
+        if(typeof WebUploader == 'undefined'){
+            $.getScript('https://cdn.staticfile.org/webuploader/0.1.5/webuploader.html5only.min.js',function(){
+                //initData();
+                initupload();
+            });
+        }
+
+    });
+</script>

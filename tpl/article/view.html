@@ -1,0 +1,60 @@
+<pjax>    
+    {Data:article name="Article" var="vo" id="$id" /}
+    <!-- <div class="layui-breadcrumb mt20">
+        <a href="/">首页</a>
+        <a href="/Article.html">小说专区</a>
+        <a><cite>{$vo.title}</cite></a>
+    </div> -->
+    <div class="layui-row layui-col-space10 mt20">
+        <div class="layui-col-md8 layui-col-xs12">
+            <article class="layui-card post read " data-id="{$vo.id}">
+                <div class="layui-card-header">
+                    <h2 class="title">
+                        {$vo.title}
+                        <div class="controller">
+                            <a data-action="-" href="javascript:;">-</a>
+                            <a data-action="+" href="javascript:;">+</a>
+                        </div>
+                    </h2>
+                </div>
+                <div class="layui-card-body">
+                    <div class="content">{$vo.content|raw}</div>
+                    <footer class="entry-meta tags">
+                        <label><i class="layui-icon layui-icon-note"></i>标签</label>
+                        <div class="info">
+                            <div class="c">						
+                                <?php
+                                if(!empty($vo['tags'])){
+                                    $tags=explode(',',$vo['tags']);
+                                    $tagstr=array();
+                                    foreach ($tags as $k => $v) {
+                                        $tagstr[]='<a rel="tag-link" pjax href="/Tag/'.$v.'.html"><i class="fa fa-tags"></i>'.$v.'</a>';
+                                    }
+                                    echo implode('、',$tagstr);
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </footer>
+                    <!-- <div class="addon">
+                        <button class="like" data-id="{$vo.id}">喜欢</button>
+                        <a class="dashang" href="/Pay.html?id={$vo.id}" target="_blank">打赏</a>
+                    </div> -->
+                </div>
+            </article>
+            <!--iframe src="/Article/comment.html?id={$vo.id}" frameborder="0" width="100%" id="commentFrame"></iframe-->
+        </div>
+        <div class="layui-col-md4 layui-hide-xs">          
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-list"></i>{$cvar.title}</div>
+                <div class="layui-card-body">
+                    <ul>
+                        {Data:loop name="Article" limit="10" cid="$cvar['id']" var="var" order="id desc"}
+                        <li class="title"><a href="/{$var.id}.html" pjax>{$var.title}</a></li>
+                        {/Data:loop}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</pjax>

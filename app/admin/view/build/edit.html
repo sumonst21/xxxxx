@@ -1,0 +1,322 @@
+<style>
+	.tool-btns {float:right;}
+	.layui-input-inline input-6x{margin-left: 120px;}
+	.BuildArea *{box-sizing: border-box;}
+	.BuildArea{position:relative;width:100%;overflow: hidden;border-top:1px solid #ddd;margin-top: 5px;}
+	.BuildArea .left{float:left;width:250px;margin:0 -250px 0 0;padding: 5px;height:100%;position:relative;}
+	.BuildArea .right{float:right;width:350px;margin:0 0 0-350px;height:100%;}
+	.BuildArea .middle{float:left;width:100%;height:100%;}
+	.BuildArea .middle header,.BuildArea .middle #ItemList{margin:0 350px 0 250px;border: 1px solid #ddd;border-width: 0 1px 0 1px;}
+	.BuildArea .middle header{height: 50px;border-bottom: 1px solid #ddd;text-align: right;line-height: 40px;padding: 5px;}
+	
+	#CtrlList .layui-btn{width: 90px;margin: 5px;text-align: center;padding: 0;cursor:move;}
+	#CtrlList .layui-btn:hover{border-style:dashed;}
+
+	#ItemList{position: absolute;top: 0;bottom:0;left:0;right:0;}
+	#ItemList.ui-droppable-active{background:#fafafa;border-color:#ccc;}
+	#ItemList .layui-form{max-width:500px;}
+	#ItemList li{border-left: 5px solid transparent;padding:5px 10px;}
+	#ItemList li .removeItem{display:none;margin: -45px 9px 0 0;}
+	#ItemList li .removeItem i{font-size:24px;}
+	#ItemList li.selected{background:#EBF8FB;border-color: #0DB3A6;}
+	#ItemList li.selected .removeItem{display:block;float: right;}
+	#ItemList li .layui-form-item{width:500px;}
+	#ItemList .layui-form-label{width:120px;}
+
+	.BuildArea .right .layui-form-label{text-align:left;font-weight:700;float: none;width:100%;padding-left: 0;}
+	.BuildArea .right .layui-input-inline input-6x{margin-left:0;}
+	.page-tab-content{min-height:auto;}
+	/*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+	.scrollbar{overflow-x:hidden;overflow-y:scroll;}
+	.scrollbar::-webkit-scrollbar{width: 0px;height: 0px;}
+	//.right .layui-tab{border-bottom:1px solid #ddd;}
+	.runtest textarea {
+		display: block;
+		width: 600px;
+		height: 350px;
+		border: 10px solid #F8F8F8;
+		border-top-width: 0;
+		padding: 10px;
+		line-height: 20px;
+		overflow: auto;
+		background-color: #3F3F3F;
+		color: #eee;
+		font-size: 12px;
+		font-family: Courier New;
+	}
+	.form-empty {display: none;position:absolute;top: 0;left: 0;right: 0;bottom: 0;margin: auto;text-align: center;width: 323px;height: 240px;font-size: 20px;color: #c5c5c5;}
+	.form-empty .img {background-image: url(https://assets.jiandaoyun.com/v1550/resources/images/form_empty.png);width: 323px;height: 215px;}
+	#ItemAttrPanel .rulelist{margin: 0 0 10px 0}
+	#ItemAttrPanel .rulelist i{display:inline-block;padding:2px 5px;margin:2px 5px;border-radius:2px;border: 1px solid #C9C9C9;color: #555;cursor:pointer;font-style:normal;}
+	.optionGroup{background: #f2f2f2;border-radius:8px;overflow: hidden;padding: 10px;}
+	.optionGroup li{width:100%;}
+	.optionGroup .layui-input{height: 30px;}
+	.optionGroup .check{display:inline-block;width:28px;}
+	.optionGroup .title{display:inline-block;width:100px;}
+	.optionGroup .value{display:inline-block;width:100px;}
+	.optionGroup .op{display: inline-block;width: 50px;}
+	.optionGroup .op i{font-size: 22px;}
+	.optionGroup .addbtndiv{text-align:right;}
+	.layui-selects{}
+	.tool-btns button{margin-top:-10px;}
+</style>
+<div class="layui-tab layui-tab-brief header">
+	<ul class="layui-tab-title">
+		<li class="layui-this"><a href="javascript:;">表单设计</a></li>
+		<?php if(request()->action()!='add'){ ?><li><a href="__APP__/Build/flow.html?id={$Request.param.id}">流程设计</a></li><?php }?>
+		<div class="tool-btns">
+			<button id="BTN_VIEWJSON" class="layui-btn layui-btn-sm">查看数据</button>
+			<button id="BTN_SAVE" class="layui-btn layui-btn-sm">保存</button>
+			<button id="BTN_SAVERUN" class="layui-btn layui-btn-primary layui-btn-sm">保存并启用</button>
+			<a href="javascript:location.reload();" title="刷新当前页面" class="aicon ai-shuaxin2 font18"></a>
+			<a href="javascript:;" class="aicon ai-quanping1 font18" id="fullscreen-btn" title="打开/关闭全屏"></a>
+		</div>
+	</ul>
+</div>
+<div class="BuildArea">
+	<div class="left scrollbar">
+		<div class="layui-collapse" lay-accordion id="CtrlList">
+			<div class="layui-colla-item">
+				<h2 class="layui-colla-title">基础字段</h2>
+				<div class="layui-colla-content layui-show" id="CtrlList1">
+					<span class="layui-btn layui-btn-primary" type="text">单行文本</span>
+					<span class="layui-btn layui-btn-primary" type="textarea">多行文本</span>
+					<span class="layui-btn layui-btn-primary" type="datetime">日期时间</span>
+					<span class="layui-btn layui-btn-primary" type="radios">单选按钮</span>
+					<span class="layui-btn layui-btn-primary" type="checkboxs">复选框组</span>
+					<span class="layui-btn layui-btn-primary" type="select">下拉框</span>
+					<span class="layui-btn layui-btn-primary" type="selects">下拉复选框</span>
+					<span class="layui-btn layui-btn-primary" type="number">数字</span>
+					<span class="layui-btn layui-btn-primary" type="hr">分割线</span>
+					<span class="layui-btn layui-btn-primary" type="button">按钮</span>
+				</div>
+			</div>
+			<div class="layui-colla-item">
+				<h2 class="layui-colla-title">增强字段</h2>
+				<div class="layui-colla-content layui-show" id="CtrlList2">
+					<span class="layui-btn layui-btn-primary" type="address">地址</span>
+					<span class="layui-btn layui-btn-primary" type="image">图片</span>
+					<span class="layui-btn layui-btn-primary" type="file">附件</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="middle scrollbar">
+		<ul class="layui-form" id="ItemList" lay-filter="ItemList"></ul>
+		<div class="form-empty" id="FormEmpty" style="display:block;"><div class="img"></div><span>拖入左侧控件绘制表单</span></div>
+	</div>
+	<div class="right scrollbar">
+		<div class="layui-tab layui-tab-brief" style="width:100%;">
+			<ul class="layui-tab-title">
+				<li>控件属性</li>
+				<li class="layui-this">表单属性</li>
+			</ul>
+			<div class="layui-tab-content layui-form" lay-filter="rightpanel">
+				<div class="layui-tab-item" id="ItemAttrPanel">
+				</div>
+				<div class="layui-tab-item  layui-show" id="FormAttrPanel">
+					<div class="layui-form-item">
+						<label class="layui-form-label">表单标识</label>
+						<div class="layui-input-inline input-6x"><input type="text" placeholder="请输入表单标识" autocomplete="off" class="layui-input" name="name" value="{{ d.attrs.name }}"></div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">表单标题</label>
+						<div class="layui-input-inline input-6x"><input type="text" placeholder="请输入表单标题" autocomplete="off" class="layui-input" name="title" value="{{ d.attrs.name }}"></div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">表单提交校验</label>
+						<div class="layui-input-inline input-6x"><a style="width:100%;" class="layui-btn layui-btn-primary layui-btn-sm">添加校验条件</a></div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">表单布局</label>
+						<div class="layui-input-inline input-6x">
+							<input type="radio" name="formlayout" title="单列" value="s" checked>
+							<input type="radio" name="formlayout" title="双列" value="d">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">隐藏控件赋值</label>
+						<div class="layui-input-inline input-6x">
+							<select name="" id="">
+								<option value="org">保持原值</option>
+								<option value="null">空值</option>
+								<option value="calc">始终都重新计算</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">表单前台缓存</label>
+						<div class="layui-input-inline input-6x">
+							<input type="radio" name="Htmlcache" title="启用" value="1" checked>
+							<input type="radio" name="Htmlcache" title="禁用" value="0">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script id="ItemAttrTpl" type="text/html">
+	<div class="layui-form-item">
+		<label class="layui-form-label">ID</label>
+		<div class="layui-input-inline input-6x">
+			<input type="text" placeholder="ID" autocomplete="off" class="layui-input" name="id" value="{{ d.attrs.id }}">
+		</div>
+	</div>
+	{{# if(typeof d.attrs.name !="undefined"){ }}
+	<div class="layui-form-item">
+		<label class="layui-form-label">name</label>
+		<div class="layui-input-inline input-6x">
+			<input type="text" placeholder="请输入name" autocomplete="off" class="layui-input" name="name" value="{{ d.attrs.name }}">
+		</div>
+	</div>
+	{{# } }}
+	<div class="layui-form-item">
+		<label class="layui-form-label">标题</label>
+		<div class="layui-input-inline input-6x">
+			<input type="text" placeholder="请输入标题" autocomplete="off" class="layui-input" name="label" value="{{ d.attrs.label }}">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">描述信息</label>
+		<div class="layui-input-inline input-6x">
+			<input type="text" placeholder="请输入描述信息" autocomplete="off" class="layui-input" name="des" value="{{ d.attrs.des }}">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">样式</label>
+		<div class="layui-input-inline input-6x">
+			<input type="text" placeholder="class样式" autocomplete="off" class="layui-input" name="className" value="{{ d.attrs.className }}">
+		</div>
+	</div>
+	{{# if(d.attrs.subtype){ }}
+	<div class="layui-form-item">
+		<label class="layui-form-label">子类型</label>
+		<div class="layui-input-inline input-6x">
+			<select name="subtype" lay-filter="subtype">
+				{{#  layui.each(d.subtypes.split(','), function(index, item){ }}
+					{{# if(d.attrs.subtype == item){  }}
+					<option value="{{item}}" selected="selected">{{item}}</option>
+					{{# } else { }}
+					<option value="{{item}}">{{item}}</option>
+					{{#  } }} 
+				{{#  }) }} 
+			</select>
+		</div>
+	</div>
+	{{# } }}
+	{{# if(typeof d.attrs.skin !="undefined"){ }}
+	<div class="layui-form-item">
+		<label class="layui-form-label">风格</label>
+		<div class="layui-input-inline input-6x">
+			<select name="skin" lay-filter="skin">
+				{{#  layui.each(d.skins, function(index, item){ }}
+					{{# if(d.attrs.skin == item){  }}
+					<option value="{{item}}" selected="selected">{{index}}</option>
+					{{# } else { }}
+					<option value="{{item}}">{{index}}</option>
+					{{#  } }} 
+				{{#  }) }} 
+			</select>
+		</div>
+	</div>
+	{{# } }}
+	{{# if(typeof d.attrs.size !="undefined"){ }}
+	<div class="layui-form-item">
+		<label class="layui-form-label">风格</label>
+		<div class="layui-input-inline input-6x">
+			<select name="size" lay-filter="size">
+				{{#  layui.each(d.sizes, function(index, item){ }}
+					{{# if(d.attrs.size == item){  }}
+					<option value="{{item}}" selected="selected">{{index}}</option>
+					{{# } else { }}
+					<option value="{{item}}">{{index}}</option>
+					{{#  } }} 
+				{{#  }) }} 
+			</select>
+		</div>
+	</div>
+	{{# } }}
+	{{# if(d.attrs.options){  }}
+		<div class="layui-form-item">
+			<label class="layui-form-label">选项</label>
+			<div class="layui-input-inline input-6x"> 
+				<ul class="optionGroup">
+					{{# for(var i in d.attrs.options){  }}
+					<li>
+						{{# if(d.attrs.type=="radio" || d.attrs.type=="select"){  }}
+						<div class="check"><input type="radio" name="options[checked]" title="　" lay-filter="option"/></div>
+						{{# }else{ }}
+						<div class="check"><input type="checkbox" name="options[{{i}}][checked]" lay-filter="option" title="　" lay-skin="primary"/></div>							
+						{{# } }}
+						<div class="title"><input type="text" placeholder="选项标题" class="layui-input" name="options[{{i}}][label]" value="{{d.attrs.options[i].label}}" /></div>
+						<div class="value"><input type="text" placeholder="选项值" class="layui-input" name="options[{{i}}][value]" value="{{d.attrs.options[i].value}}" /></div>
+						<div class="op"><i class="layui-icon">&#xe640;</i><i class="layui-icon">&#xe756;</i></div>
+					</li>
+					{{# } }}
+					<div class="addbtndiv"><button class="layui-button">添加</button></div>
+				</ul>
+				
+			</div>
+		</div>
+	{{# } }}
+	{{# if(d.defaultTypes){  }}
+	<div class="layui-form-item">
+		<label class="layui-form-label">默认值</label>
+		<div class="layui-input-inline input-6x">
+			<select name="defaultTypes">
+				{{#  layui.each(d.defaultTypes.split(','), function(index, item){ }}
+					{{# if(d.attrs.defaultType == item){  }}
+					<option value="{{item}}" selected="selected">{{item}}</option>
+					{{# } else { }}
+					<option value="{{item}}">{{item}}</option>
+					{{#  } }} 
+				{{#  }) }} 
+			</select>
+			<input type="text" autocomplete="off" class="layui-input" name="defaultValue" value="{{ d.attrs.default }}" style="display:none;" />
+		</div>
+	</div>
+	{{# } }}
+	{{# if(typeof d.attrs.rule !="undefined"){  }}
+	<div class="layui-form-item">
+		<label class="layui-form-label">验证规则</label>
+		<div class="layui-input-inline input-6x">
+			<div class="rulelist">
+			{{#  layui.each(window.ValidRules, function(index, item){ }}
+				<i value="{{index}}">{{item}}</i>
+			{{#  }) }} 
+			</div>
+			<textarea name="format" class="layui-textarea" style="font-family:monospace;"></textarea>
+		</div>
+	</div>
+	{{# } }}
+</script>
+<script type="text/html" id="Editvo">
+	{Data:article name="Build" id="request" var="vo"}
+	<?php 
+		if(!$vo){ $vo = ['fields'=>'','flows'=>''];}
+		if(!$vo['fields']){ $vo['fields']=[];}
+		if(!$vo['flows']){ $vo['flows']=[];}
+	?>
+	{$vo|default=emptyVo|json_encode|raw}
+</script>
+<script>
+	layui.use(['jquery','form','element','build'], function(){
+		var form = layui.form,
+			build = layui.build,
+			element = layui.element,
+			$ = layui.jquery;
+		window.$ = window.jQuery = layui.jquery;
+		var vo = $.parseJSON($('#Editvo').html());
+		$('#Editvo').test();
+
+		console.info(vo);
+		window.build = layui.build;
+		$.getScript('__PUBLIC__/js/jquery-ui.min.js', function(data, textStatus) {
+
+			build.init(vo.fields);
+		});
+
+	});
+	//SyncFormData();
+</script>

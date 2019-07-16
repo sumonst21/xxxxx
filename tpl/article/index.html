@@ -1,0 +1,41 @@
+<pjax>
+    <div class="layui-row layui-col-space10 mt20">
+        <div class="layui-col-md8 layui-col-xs12">
+            {Data:list name="Article" var="var" order="id desc" cid="request" keywords="request" tag="$tag" pagesize="30"}
+            <div class="layui-card">
+                <div class="layui-card-header">小说专区</div>
+                <div class="layui-card-body">
+                    <ul class="articleList">
+                    {volist name="var.list" id="vo"}            
+                        <li><a pjax href="/{$vo.id}.html" rel="bookmark">{$vo.title}</a></li>
+                    {/volist}
+                    </ul>
+                </div>
+            </div>
+            <nav class="layui-box layui-laypage layui-laypage-default">{$var.page|raw}</nav>
+            {/Data:list}
+        </div>
+        <div class="layui-col-md4 layui-hide-xs">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-list"></i>热门点击</div>
+                <div class="layui-card-body">
+                    <ul>
+                        {Data:loop name="Article" limit="10" cid="$cvar['id']" var="var" order="id desc"}
+                        <li class="title"><a href="/{$var.id}.html" pjax>{$var.title}</a></li>
+                        {/Data:loop}
+                    </ul>
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-list"></i>小说分类</div>
+                <div class="layui-card-body">
+                    <ul>
+                        {Data:loop name="Category" module="Article" limit="all" var="var" order="id desc"}
+                        <li class="title"><a href="/Article/Category/{$var.id}.html" pjax>{$var.title}</a></li>
+                        {/Data:loop}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</pjax>

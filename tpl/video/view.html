@@ -1,0 +1,102 @@
+<pjax>
+    <link href="/static/videojs/video-js.css" rel="stylesheet">
+    <link href="/static/videojs/airplay.css" rel="stylesheet">
+    <style>
+        .video-js .vjs-big-play-button{margin: -1.5em;top: 50%;left: 50%;}
+    </style>
+    <script src="/static/videojs/video.js"></script>
+    <script type="text/javascript" src="/static/videojs/videojs-contrib-hls.js" charset="utf-8" > </script>
+    <script type="text/javascript" src="/static/videojs/airplay.js" charset="utf-8" > </script>
+    {Data:article name="Video" var="vo" id="$id" /}
+    <!-- <div class="layui-breadcrumb">
+        <a href="/">首页</a>
+        <a href="/Article.html">小说专区</a>
+        <a><cite>{$vo.title}</cite></a>
+    </div> -->
+    <article class="layui-card post read" data-id="{$vo.id}">
+        <div class="layui-card-header">
+            <h2 class="title">
+                {$vo.title}
+            </h2>
+        </div>
+        <div class="layui-card-body">
+            <div class="content" id="videoContent">
+                <video id="video" class="video-js vjs-default-skin" controls>
+                    {volist name=":explode('$$$',$vo['video'])" id="vvo"}
+                    <source src="{$vvo}" type="application/x-mpegURL">
+                    {/volist}
+                </video>
+            </div>
+            <footer class="entry-meta tags">
+                <label><i class="fa fa-folder-open-o"></i>标签</label>
+                <div class="info">
+                    <div class="c">						
+                        <?php
+                        if(!empty($vo['tags'])){
+                            $tags=explode(',',$vo['tags']);
+                            $tagstr=array();
+                            foreach ($tags as $k => $v) {
+                                $tagstr[]='<a rel="tag-link" pjax href="/Tag/'.$v.'.html"><i class="fa fa-tags"></i>'.$v.'</a>';
+                            }
+                            echo implode('、',$tagstr);
+                        }
+                        ?>。 
+                    </div>
+                </div>
+            </footer>
+            <!-- <div class="addon">
+                <button class="like" data-id="{$vo.id}">喜欢</button>
+                <a class="dashang" href="/Pay.html?id={$vo.id}" target="_blank">打赏</a>
+            </div> -->
+        </div>
+    </article>
+    <!--iframe src="/Article/comment.html?id={$vo.id}" frameborder="0" width="100%" id="commentFrame"></iframe-->
+</pjax>
+<!--<script type="text/javascript" src="__STATIC__/ckplayer/ckplayer.js"></!--<script>-->
+<script type="text/javascript">
+layui.use(['jquery','layer'],function(){
+    var $ = layui.jquery,layer = layui.layer;
+    var vPath = '{$vo.video}'.split("$$$");
+    var price = {$vo.price|default=0};
+    var preview_time = {$vo.preview_time|default=0};
+    var player = videojs('video',{
+        autoplay:true,
+        //muted:true,
+        poster:'{$vo.img}',
+        aspectRatio:'16:9',
+        liveui:1,
+        userActions: {
+        },
+        playbackRates: [0.5, 1, 1.5, 2,4,6,8],
+        width:$('#videoContent').width(),
+        height:$('#videoContent').width()/16*9,
+        plugins: {
+            airplayButton: {}
+        }
+    });
+    player.on('progress',function(e){
+        if(price && preview_time && preview_time<=player.currentTime()){
+            player.pause();
+            layer.open({                
+                content: '{$vo.title}不是免费视频,售价{$price}元,需要付费后才能观看。   ' //这里content是一个普通的String
+            });
+            //console.log(player.currentTime());
+        }
+    });
+    window.player = player;
+    /*var rotateBtn = player.controlBar.addChild('button');
+    rotateBtn.addClass('vjs-icon-rotate');
+    var rotate=0;
+    rotateBtn.on('click',function(){
+        rotate+=180;
+        if(rotate==360){rotate=0;}
+        $('#video_html5_api').css('transform','rotate('+rotate+'deg)');
+    });*/
+    function resize(){
+        var w = $('#videoContent').width();
+        player.width(w);
+        player.height(w/16*9);
+    }
+    $(window).resize(resize).trigger('resize');
+});
+</script>
