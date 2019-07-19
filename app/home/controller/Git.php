@@ -25,8 +25,12 @@ class Git extends Base
 		    if (strcmp($signature, $hash) == 0) {
 		        echo shell_exec("cd {$path} && git pull");
 		        exit();
+		    }else{
+	    		echo 'signature error';		    	
 		    }
-		}
+		}else{
+	    	echo 'no signature';
+	    }
 		return 'ok';
     }
 
