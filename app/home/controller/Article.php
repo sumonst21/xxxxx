@@ -16,16 +16,16 @@ class Article extends Base
     	$pagetitle=empty($pagetitle) ? '文章列表' : $pagetitle;
         $this->setseoinfo($pagetitle,$pagetitle,$pagetitle);
 		*/
-        return view('Article:index');
+        return view('index');
     }
     public function read($id=0){
-        return view('Article:view',['id'=>$id]);
+        return view('view',['id'=>$id]);
         //M('Article')->where('id='.$id)->setInc('hit');
     }
     public function search($qw=''){
         $qw= empty($qw) ? input('qw') : $qw;
         $this->setseoinfo('搜索结果:'.$qw,$qw,$qw);
-        return view('Article:index');
+        return view('index');
     }
     public function edit($id=0){
         //$data = input('param.');
@@ -139,6 +139,6 @@ class Article extends Base
 	}
 	/*按标签显示文章*/
     function tag(){
-        return view('Article:index',['tag'=>input('tag')]);
+        return view('index',['tag'=>input('tag')]);
     }
 }

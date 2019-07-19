@@ -16,16 +16,16 @@ class Video extends Base
     	$pagetitle=empty($pagetitle) ? '文章列表' : $pagetitle;
         $this->setseoinfo($pagetitle,$pagetitle,$pagetitle);
 		*/
-        return view('Video:index');
+        return view('index');
     }
     public function view($id=0){
-        return view('Video:view',['id'=>$id]);
+        return view('view',['id'=>$id]);
         //M('Video')->where('id='.$id)->setInc('hit');
     }
     public function search($qw=''){
         $qw= empty($qw) ? input('qw') : $qw;
         $this->setseoinfo('搜索结果:'.$qw,$qw,$qw);
-        return view('Video:index');
+        return view('index');
     }
     function setbad(){
         M('Video')->setInc('bad');
@@ -117,7 +117,7 @@ class Video extends Base
 	}
 	/*按标签显示文章*/
     function tag(){
-        return view('Video:index',['tag'=>input('tag')]);
+        return view('index',['tag'=>input('tag')]);
     }
     function m3u8(){
         Config('app_trace',0);
