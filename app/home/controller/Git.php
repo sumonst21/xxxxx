@@ -15,7 +15,7 @@ class Git extends Base
 		/*$data = Input('post.');
         P($data);*/
         $data = json_decode(file_get_contents('php://input'),true);
-        P($data);
+        //P($data);
 		$secret = "n1e5a6s6m7";
 		$path = "/www/web/xxx";
 		// Headers deliveried from GitHub
@@ -27,7 +27,7 @@ class Git extends Base
 		        exit();
 		    }
 		}
-		http_response_code(404);
+		return 'ok';
     }
 
 }
