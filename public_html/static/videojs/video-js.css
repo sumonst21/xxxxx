@@ -725,13 +725,13 @@ body.vjs-full-window {
 }
 
 .video-js .vjs-control-bar {
-  display: none;
+  /*display: none;*/
   width: 100%;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 3em;
+  height: 40px;
   background-color: #2B333F;
   background-color: rgba(43, 51, 63, 0.7);
 }
@@ -745,7 +745,7 @@ body.vjs-full-window {
 
 .vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
   visibility: visible;
-  opacity: 0;
+  opacity: 1;
   transition: visibility 1s, opacity 1s;
 }
 
@@ -776,7 +776,7 @@ body.vjs-full-window {
 
 .vjs-button > .vjs-icon-placeholder:before {
   font-size: 1.8em;
-  line-height: 1.67;
+  line-height: 40px;
 }
 
 .video-js .vjs-control:focus:before,
@@ -805,10 +805,14 @@ body.vjs-full-window {
 }
 
 .video-js .vjs-progress-control {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
   cursor: pointer;
-  flex: auto;
+  /*flex: auto;
   display: flex;
-  align-items: center;
+  align-items: center;*/
   min-width: 4em;
   touch-action: none;
 }
@@ -838,6 +842,8 @@ body.vjs-full-window {
 
 .video-js .vjs-progress-control .vjs-progress-holder {
   margin: 0 10px;
+  height: 10px;
+  top: -8px;
 }
 
 .video-js .vjs-progress-control:hover .vjs-progress-holder {
@@ -1203,7 +1209,7 @@ body.vjs-full-window {
 .video-js .vjs-time-control {
   flex: none;
   font-size: 1em;
-  line-height: 3em;
+  line-height: 40px;
   min-width: 2em;
   width: auto;
   padding-left: 1em;
@@ -1304,7 +1310,7 @@ video::-webkit-media-text-track-display {
 .vjs-playback-rate .vjs-playback-rate-value {
   pointer-events: none;
   font-size: 1.5em;
-  line-height: 2;
+  line-height: 40px;
   text-align: center;
 }
 

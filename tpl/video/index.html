@@ -6,6 +6,7 @@
                 <li class="layui-row">
                     <div class="layui-col-md1">分类</div>                    
                     <ul class="layui-col-md11">
+                        <li class="title"><a href="/Video.html" pjax>全部</a></li>
                         {Data:loop name="Category" module="Video" limit="all" var="cvar" order="id desc"}
                         <li class="title"><a href="/Video/Category/{$cvar.id}.html" pjax>{$cvar.title}</a></li>
                         {/Data:loop}

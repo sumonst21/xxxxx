@@ -72,28 +72,32 @@ class Base extends Controller
     public function _empty($method) {
         return view();
     }
-    public function save($model=false,$data=null)
+    public function save($modelName=false,$data=null)
     {
-        if (!$model){
-            $model=request()->controller();
+        if (!$modelName){
+            $modelName=request()->controller();
         }
-        $model  =   model($model);
         if (is_null($data)){
-            $data=$_POST;
+            $data=Input('post.');
         }
-        if($data[$model->getPk()]){
+        $result = $this->validate($data,'app\\common\\validate\\'.$modelName);
+        if (true !== $result) {
+            $this->error($result);
+            //return $result;
+        }
+        $model  =   model($modelName);
+        $pk = $model->getPk();
+        if($data[$pk]){
             $map = [];
-            $map[$model->getPk()]=$data[$model->getPk()];
-            $result = $model->allowField(true)->validate(true)->save($data,$map);
-            $model->id = $data['id'];
-            echo 'update',$result;
+            $map[$model->getPk()]=$data[$pk];
+            $result = $model->allowField(true)->save($data,$map);
+            $model->id = $data[$pk];
+            //echo 'update',$result;
             //echo $model->getlastsql();
         }else{
-            $result = $model->validate(true)->allowField(true)->save($data);
-            echo 'insert',$result;
+            $result = $model->allowField(true)->save($data);
+            //echo 'insert',$result;
         }
-        echo $result;
-        P($model->id);
         if($result) {
             return $model->id;
         }else {
@@ -132,12 +136,12 @@ class Base extends Controller
         }
     }
     function checkuser(){
-        if (!$_SESSION['uid'] || $_SESSION['uid']==-2){
-            redirect('/login.html');
+        if (!session('uid')){
+            redirect('/Login.html');
         }
     }
 	function setseoinfo($title='',$kw='',$description='',$addr=array()){
-		$keyword 			=	require(CONF_PATH.'keyword.php');
+		$keyword 			=	require(\Env::get('config_path').'keyword.php');
         $this->assign('page_title', $title);
         $this->assign('page_keyword', $kw);
         $this->assign('page_description', $description);
@@ -145,4 +149,13 @@ class Base extends Controller
 	function saveattach(){
 		save_attach($_POST);
 	}
+    // 验证码显示
+    public function verify()
+    {
+        config('app_trace',false);
+        //Image::buildImageVerify(4,1, 'png', 290, 130, 'TestVerify');
+        //import("ORG.Util.Verify");
+        $Code=new \ORG\Verify\Code();
+        return $Code->send(Input('get.name'));
+    }
 }

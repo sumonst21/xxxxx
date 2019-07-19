@@ -8,5 +8,6 @@ class User extends Validate
         'password|密码'       =>  'require|max:32|min:6',
         //'nickname|昵称'       =>  'require|max:32|min:6',
         'nickname|密码'       =>  'require|max:32|min:6',
+        //'vcode|验证码'       =>  'require|max:32|min:6',
     ];
 }

@@ -1,7 +1,7 @@
 <?php
 namespace app\common\validate;
 use think\Validate;
-class Income extends Validate
+class Image extends Validate
 {
     protected $rule = [
         'res_id|源ID'      =>  'require|integer',

@@ -16,6 +16,10 @@ class User extends Base
     {
         return time();
     }
+    public function setPasswordAttr($value,$data)
+    {
+        return md5($value);
+    }
 	protected function _filter($data){
 		if(isset($data['keywords'])){
 			if($data['keywords']){
