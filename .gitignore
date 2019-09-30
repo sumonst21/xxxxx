@@ -1,11 +1,3 @@
-.idea
-composer.lock
-*.log
 *.bak
 *.zip
-thinkphp
-config/database.php
-/runtime/*
-/public_html/FengBang/
-/public_html/Uploads/*
-/public_html/cj
+node_modules

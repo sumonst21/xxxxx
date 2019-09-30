@@ -1,0 +1,1 @@
+<?php return ['C_TPL'=>'c_default','B_TPL'=>'b_cansnow','U_TPL'=>'u_cansnow',]; 

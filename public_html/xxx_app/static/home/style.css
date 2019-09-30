@@ -1,0 +1,98 @@
+html {
+    font-size: 14px;
+}
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+body {
+    margin: 0;
+    overflow-x: hidden;
+    min-width: 320px;
+    background: #fff;
+    font-size: 14px;
+    line-height: 1.4285em;
+    color: rgba(0,0,0,.87);
+    font-smoothing: antialiased;
+}
+body {
+    background-color: #f0f2f5;
+    color: #636b6f;
+    font-family: Helvetica,Arial,PingFang SC,Noto Sans,Roboto,Microsoft Yahei,sans-serif;
+    min-height: 100vh;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+
+.ui.menu {
+    font-size: 1rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 1rem 0;
+    font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
+    background: #fff;
+    font-weight: 400;
+    border: 1px solid rgba(34,36,38,.15);
+    -webkit-box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+    box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+    border-radius: .28571429rem;
+    min-height: 2.85714286em;
+}
+
+.ui.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    -webkit-transition: none;
+    transition: none;
+    will-change: transform;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    visibility: hidden;
+    -webkit-overflow-scrolling: touch;
+    height: 100%!important;
+    max-height: 100%;
+    border-radius: 0!important;
+    margin: 0!important;
+    overflow-y: auto!important;
+    z-index: 102;
+}
+.ui.sidebar, .ui.sidebar>* {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+.ui.bottom.sidebar, .ui.top.sidebar {
+    width: 100%!important;
+    height: auto!important;
+}
+.ui.top.sidebar {
+    top: 0!important;
+    bottom: auto!important;
+    -webkit-transform: translate3d(0,-100%,0);
+    transform: translate3d(0,-100%,0);
+}
+
+.ui.top.menu {
+    border-top: 4px solid #f4645f;
+    border-color: #e7e7e7;
+    background-color: #fff;
+    -webkit-box-shadow: 0 1px 11px 2px rgba(42,42,42,.1);
+    box-shadow: 0 1px 11px 2px rgba(42,42,42,.1);
+    margin-bottom: 40px;
+    margin-top: 0;
+}
+.ui.menu.top {
+    border: none;
+    border-bottom: 1px solid #d3e0e9;
+    -webkit-box-shadow: 0 1px 2px 0 rgba(101,129,156,.08);
+    box-shadow: 0 1px 2px 0 rgba(101,129,156,.08);
+}

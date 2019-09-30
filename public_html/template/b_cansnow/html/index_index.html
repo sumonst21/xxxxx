@@ -1,0 +1,16 @@
+{extend name="index_base" /} 
+{block name="seo"}
+<title>{$site_config['site_title']} - {$site_config['seo_title']}</title>
+<meta name="keywords" content="{$site_config['seo_keyword']}">
+<meta name="description" content="{$site_config['seo_description']}">
+{/block}
+{block name="body"}
+<div class="layui-container">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md9">
+            {include file="index/main"}
+        </div>
+        {include file="index/right"}
+    </div>
+</div>
+{/block}

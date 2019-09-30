@@ -1,0 +1,127 @@
+<div class="fly-header">
+    <div class="layui-container">
+        <a class="fly-logo" href="{:url('bbs/index/index')}">
+            <img src="__ROOT__{$site_config['bbslogo']|default='__PUBLIC__images/logo.png'}" alt="{$site_config['site_title']}">
+            {$site_config['site_title']}
+        </a>
+        <ul class="layui-nav fly-nav layui-hide-xs">
+            {if CBOPEN==2}
+                <li class="layui-nav-item"><a href="{:url('bbs/index/index')}" target="_self" title=""><i class="layui-icon"></i>首页</a></li>
+            {else /}
+                <li class="layui-nav-item"><a href="{:url('index/index/index')}" target="_self" title=""><i class="layui-icon"></i>首页</a></li>
+            {/if}
+            {if CBOPEN==3 || CBOPEN==1}
+            {volist name="nav" id="vo" }
+            {eq name="vo.pid" value="1"}
+            <li class="layui-nav-item">
+                <a href="{$vo.link|getnavlink=$vo.sid}" target="{$vo.target}" title="{$vo.alias}">
+                    <i class="layui-icon">{$vo.icon}</i>{$vo.name}
+                </a>
+            </li>
+            {/eq}
+            {/volist}
+            {/if}
+            {if CBOPEN==3}
+            <li class="layui-nav-item">
+                <a href="{:url('bbs/index/index')}">论坛</a>
+                <dl class="layui-nav-child">
+                    {volist name="tpto" id="vo"}
+                    <?php
+                        $str = 'forum_'.$vo['alias'];
+                        $$str = $vo;
+                    ?>
+                    <dd><a href="{:url('bbs/index/cate',array('cate_alias'=>$vo.alias))}">{$vo.name}</a></dd>
+                    {/volist}
+                </dl>
+            </li>
+            {else /}
+            {volist name="tpto" id="vo"}
+                <?php
+                    $str = 'forum_'.$vo['alias'];
+                    $$str = $vo;
+                ?>
+                <li class="layui-nav-item {if $name eq $vo.name}layui-this {/if}"><a href="{:url('bbs/index/cate',array('cate_alias'=>$vo.alias))}">{$vo.name}</a></li>
+            {/volist}
+            {/if}
+            <li class="layui-nav-item">
+                <form class="search" action="{:url('bbs/index/search')}" method="GET">
+                    <div class="ui icon input">
+                    <input class="layui-input" name="ks" type="text" placeholder="搜索" value="" autocomplete="off"><i class="fa fa-search"></i>
+                    </div>
+                    <div class="results"></div>
+                </form>
+            </li>
+        </ul>
+        <ul class="layui-nav fly-nav-user">
+            <input id="uid" type="hidden" value="{$Think.session.userid}" /> {if condition="$Think.session.userid neq ''"}
+            <!-- 登录后的状态 -->
+            <li class="layui-nav-item">
+                <a class="fly-nav-avatar" href="javascript:;">
+                    <cite class="layui-hide-xs">{$Think.session.username}</cite>
+                    <img src="{$Think.session.userhead|getheadurl}">
+                </a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a href="{:url('user/index/index')}"><i class="fa fa-user-o"></i>个人中心</a>
+                    </dd>
+                    <hr style="margin: 5px 0;">
+                    <dd><a data-url="{:url('user/login/logout')}" location-url="{:url('bbs/index/index')}" href="javascript:void(0)" class="logi_logout" style="text-align: center;"><i class="fa fa-sign-out"></i>退出</a></dd>
+                </dl>
+                <!-- <a href="{:url('user/index/topic')}"><span class="layui-badge" id="number">0</span></a> -->
+            </li>
+            <script>
+                layui.use(['jquery', 'layer'], function() {
+                    var $ = layui.jquery;
+                    var layer = layui.layer;
+                    function getmsgnum() {
+                        var elemUser = $('.fly-nav-user');
+                        $.getJSON("{:url('user/message/getUnreadMsg')}?", {
+                            _: new Date().getTime()
+                        }, function(res) {
+
+                            if (res.code == 200 && res.count > 0) {
+                                var msgurl = "{:url('user/index/message')}";
+                                var msg = $('<a class="fly-nav-msg" href="' + msgurl + '">' + res.count + '</a>');
+                                elemUser.append(msg);
+                                // msg.on('mouseenter', function() {
+                                //     layer.closeAll('tips');
+                                // });
+                                // layer.tips('你有 ' + res.count + ' 条未读消息，点击可查看', msg, {
+                                //     tips: 3,
+                                //     // tipsMore: true,
+                                //     fixed: true,
+                                //     time: 3000
+                                // });
+                                msg.on('click', function() {
+                                    $.post("{:url('user/message/readmsg')}", {}, function(res) {
+                                        if (res.status == 0) {
+                                            location.href = "{:url('user/index/message')}";
+                                        }
+                                    });
+                                });
+                            }
+                        });
+                    }
+                    getmsgnum();
+                    //1分钟执行一次
+                    setInterval(getmsgnum, 60000);
+                });
+            </script>
+            {else /}
+            <li class="layui-nav-item">
+                <a class="iconfont icon-touxiang layui-hide-xs" href="{:url('user/login/index')}"></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="{:url('user/login/index')}">登录</a></li>
+            <li class="layui-nav-item">
+                <a href="{:url('user/login/reg')}">注册</a></li>
+            <!-- <li class="layui-nav-item layui-hide-xs">
+                <a href="{:url('user/applogin/qqlogin')}" onclick="layer.msg('正在通过QQ登录', {icon:16, shade: 0.1, time:0})" title="QQ登录" class="iconfont icon-qq"></a>
+            </li> -->
+            <!--<li class="layui-nav-item layui-hide-xs">
+            <a href="/app/weibo/" onclick="layer.msg('正在通过微博登录', {icon:16, shade: 0.1, time:0})" title="微博登录" class="iconfont icon-weibo"></a>
+            </li>-->
+            {/if}
+        </ul>
+    </div>
+</div>

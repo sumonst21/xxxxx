@@ -1,0 +1,78 @@
+{
+	"pages": [
+	    {
+            "path" : "pages/mobile/index/index",
+            "style" : {}
+        },
+	    {
+            "path" : "pages/mobile/follow/follow",
+            "style" : {}
+        }
+	    ,{
+            "path" : "pages/mobile/add/add",
+            "style" : {}
+        }
+	    ,{
+            "path" : "pages/mobile/message/list",
+            "style" : {}
+        }
+	    ,{
+            "path" : "pages/mobile/message/add",
+            "style" : {}
+        },{
+			"path": "pages/mobile/list/list",
+			"style": {}
+		},
+		{
+			"path": "pages/mobile/detail/detail",
+			"style": {}
+		},
+		{
+			"path": "pages/mobile/ucenter/ucenter",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+		}
+	    ,{
+            "path" : "pages/mobile/player/player",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/admin/index/index",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/home/index/index",
+            "style" : {}
+        }
+    ],
+	"tabBar": {
+		"color": "#CCCCCC",
+		"selectedColor": "#FFFFFF",
+		"backgroundColor": "#000000",
+		"borderStyle": "black",
+		"list": [{
+			"pagePath": "pages/mobile/index/index",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/mobile/follow/follow",
+			"text": "关注"
+		}, {
+			"pagePath": "pages/mobile/add/add",
+			"text": "＋"
+		}, {
+			"pagePath": "pages/mobile/message/list",
+			"text": "消息"
+		}, {
+			"pagePath": "pages/mobile/ucenter/ucenter",
+			"text": "我的"
+		}]
+	},
+	"globalStyle": {
+		"navigationStyle":"custom",
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "桃花坞",
+		"navigationBarBackgroundColor": "#2F85FC",
+		"backgroundColor": "#FFFFFF"
+	}
+}

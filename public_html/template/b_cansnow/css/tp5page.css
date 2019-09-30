@@ -1,0 +1,54 @@
+.pagination {
+ display: inline-block;
+ padding: 0 auto;
+ margin: 20px 0;
+ border-radius: 4px;
+}
+.pagination li {
+  display: inline;
+}
+.pagination li a,
+.pagination li span {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  line-height: 1.42857143;
+  color: #4183c4;
+  background: #fff;
+  margin: 0 0 0 8px;
+  border: 1px solid #ddd;
+}
+
+.pagination li a:hover {
+	color: #fff;
+	background: #009688;
+}
+.pagination .active span{
+background: #4183c4;
+color: #fff;
+}
+.pagination .disabled{
+display: none;
+}
+body{color:#636b6f;font-family: Helvetica,Arial,PingFang SC,Noto Sans,Roboto,Microsoft Yahei,sans-serif;}
+::selection {background-color: #cce2ff;color: rgba(0,0,0,.87);}
+.fly-header .search{position: relative;width:224px;margin:0 10px;}
+.fly-header .search input{height: 34px;line-height: 34px;border-radius: 17px;border:1px solid rgba(34,36,38,.15);}
+.fly-header .search .fa{position: absolute;right: 10px;top: 0;line-height: 34px;color:rgba(0,0,0,0.3);}
+
+.layui-card .footer{border-top:1px solid rgba(0,0,0,.05);padding:10px 13px;}
+.layui-btn.red{color:#f4645f;border:1px solid #f4645f;background:#fff;font-size: 13px;height: 34px;line-height: 34px;border-radius: 4px;padding:0 15px;}
+.layui-btn.red:hover{color:#f4645f;}
+.layui-btn.white{color:rgba(0,0,0,.6)!important;border:1px solid rgba(0,0,0,.6)!important;background:white;font-size: 13px;height: 34px;line-height: 34px;border-radius: 4px;padding:0 15px;}
+.layui-btn.white:hover{border-color:#f4645f;color:rgba(0,0,0,.6)!important;}
+.layui-card.user .fly-avatar{position:static;display: block; text-align: center;margin:10px;}
+.layui-card.user .fly-avatar img{width: 40%;height: auto;border-radius: 50%;display: inline-block;}
+.layui-card.user .nickname{border-top:1px solid rgba(0,0,0,.05)!important;padding-top:5px;margin: 15px 0;display: inline-block;}
+.layui-layedit-iframe{height:auto;}
+.detail h1{font-size: 20px;}
+.fly-detail-info>*{font-size:12px;}
+.detail-body{border-top: 1px solid #d3e0e9;line-height: 30px;font-size: 15px;padding: 20px 0 0 0;}
+.detail-body p{text-indent: 2em;}
+.detail-body .video-js .vjs-big-play-button{top:50%;left:50%;margin:-1.5em auto auto -1.5em;}
+.fly-panel{border-radius: 4px;}
+.fly-nav-msg{background-color: #db2828;border-radius: 50%;}

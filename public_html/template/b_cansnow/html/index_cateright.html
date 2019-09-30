@@ -1,0 +1,47 @@
+<div class="layui-col-md3">
+    {eq name="Request.action" value="thread"}  
+    <div class="layui-card top-color user">
+        <div class="layui-card-body" style="text-align: center;">
+            <a class="fly-avatar" href="{:url('user/index/home',array('id'=>$t.userid))}">
+                <img src="{$t.userhead|getheadurl}" alt="{$t.username}">
+            </a>
+            <a href="{:url('user/index/home',array('id'=>$t.userid))}" class="nickname">{$t.username}</a>
+        </div>
+        <div class="footer">
+            <div>
+                <a class="layui-btn red layui-btn-fluid" href="{:url('bbs/Forum/add')}" data-id="{$t.id}" data-type='1' data-title="{$t.username}的帖子" data-url="{:url('bbs/forum/jubao')}" type="jubao">
+                    <i class="layui-icon layui-icon-upload-drag"></i>举报
+                </a>
+            </div>
+            <div style="margin-top:10px">
+                <a class="layui-btn white layui-btn-fluid" href="{:url('bbs/Forum/add')}" data-id="{$t.id}" data-type='1' data-title="{$t.username}的帖子" data-url="{:url('bbs/forum/jubao')}" type="jubao">
+                    <i class="fa fa-comments"></i>私信
+                </a>
+            </div>
+        </div>
+    </div>
+    {/eq}
+    {neq name="Request.action" value="search"}  
+    <?php
+        $str = 'forum_'.( isset($cate_alias) ? $cate_alias : (isset($t) ? $t['alias'] : ''));
+    ?>
+    <div class="layui-card top-color">
+        <div class="layui-card-header">{$$str.name}</div>
+        <div class="layui-card-body">
+            {$$str.description}
+        </div>
+        <div class="footer">
+            <a class="layui-btn red layui-btn-fluid" href="{:url('bbs/Forum/add')}"><i class="fa fa-paint-brush"></i>发帖</a>
+        </div>
+    </div>
+    {/neq}
+    <dl class="fly-panel fly-list-one top-color">
+        <dt class="fly-panel-title">热议帖子</dt>
+        {volist name="tptch" id="vo"}
+        <dd>
+            <a href="{:url('bbs/index/thread',array('id'=>$vo.id))}">{$vo.title} </a>
+            <span><i class="fa fa-commenting-o"></i> {$vo.reply}</span>
+        </dd>
+        {/volist}
+    </dl>
+</div>
