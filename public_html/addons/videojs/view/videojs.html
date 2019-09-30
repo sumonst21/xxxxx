@@ -1,0 +1,23 @@
+<script>
+	$(function(){
+		var w = $('.detail-body').width();
+		var setup = JSON.stringify({
+			"controls": true, 
+			"autoplay": false,
+			"preload": "auto",
+			aspectRatio:'16:9',
+			fluid:false,
+			liveui:1,
+			playbackRates: [0.5, 1, 1.5, 2,4,6,8],
+			//plugins: {airplayButton: {}},
+			width:w,
+			height:w/16*9
+		});
+		$('video').each(function(k,v){
+			$(this).addClass('video-js').attr('data-setup',setup);
+			$(this).append('<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that<a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>');
+		});
+	});
+</script>
+<link href="{$static_path}videojs/video-js.min.css" rel="stylesheet">
+<script src="{$static_path}videojs/video.js" type="text/javascript"></script>
